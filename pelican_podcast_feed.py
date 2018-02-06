@@ -145,6 +145,13 @@ class PodcastFeed(Rss201rev2Feed):
                     'itunes:category', attrs={'text': categories}
                     )
 
+        # Redirects the old URL to the new URL
+        #   <itunes:new-feed-url>https://newsite.com/newrss.xml</itunes:new-feed-url>
+        if 'PODCAST_FEED_NEWURL' in self.settings:
+            handler.addQuickElement(
+                'itunes:new-feed-url', self.settings['PODCAST_FEED_NEWURL']
+            )
+
     def add_item_elements(self, handler, item):
         """Adds a new element to the iTunes feed, using information from
         ``item`` to populate it with relevant information about the article.
@@ -354,6 +361,7 @@ class PodcastFeedGenerator(Generator):
             self.original_settings['PODCAST_FEED_OWNER_NAME'] = self.settings.get('PODCAST_FEED_OWNER_NAME',None)
             self.original_settings['PODCAST_FEED_OWNER_EMAIL'] = self.settings.get('PODCAST_FEED_OWNER_EMAIL',None)
             self.original_settings['PODCAST_FEED_CATEGORY'] = self.settings.get('PODCAST_FEED_CATEGORY',None)
+            self.original_settings['PODCAST_FEED_NEWURL'] = self.settings.get('PODCAST_FEED_NEWURL',None)
             
             for show in self.podcasts:
                 # Override the global settings with the per-show settings
