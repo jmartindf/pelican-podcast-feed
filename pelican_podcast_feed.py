@@ -244,7 +244,7 @@ class iTunesWriter(Writer):
             items['itunes:summary'] = Markup(item.summary).striptags()
 
         items['description'] = "<![CDATA[{}]]>".format(
-            Markup(item.summary)
+            Markup(item.get_content(self.site_url)) #Embed full show notes
             )
 
         # Date the article was last modified.
